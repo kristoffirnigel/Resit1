@@ -15,6 +15,12 @@ int main()
 	spriteBackground.setTexture(textureBackground); //added texture with the image to this sprite
 	spriteBackground.setPosition(0, 0); //and now it covers the whole screen
 
+	Texture textureMouse;
+	textureMouse.loadFromFile("graphics/mouse.png");
+	Sprite spriteMouse;
+	spriteMouse.setTexture(textureMouse);
+	spriteMouse.setPosition(810, 800);
+
 	while(window.isOpen())
 	{
 		if (Keyboard::isKeyPressed(Keyboard::Escape))
@@ -22,7 +28,10 @@ int main()
 			window.close();
 		}
 		window.clear(); //clears the last frme
+
 		window.draw(spriteBackground); //draws the game
+		window.draw(spriteMouse);
+
 		window.display(); //displays the drawn game
 	}
 	return 0;
