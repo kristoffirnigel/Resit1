@@ -2,7 +2,7 @@
 #include "stdafx.h"
 #include <SFML/Graphics.hpp>
 
-using namespace sf;
+using namespace sf; //makes everything easier
 
 int main()
 {
@@ -13,7 +13,7 @@ int main()
 	textureBackground.loadFromFile("graphics/background.png"); //added an image file to it
 	Sprite spriteBackground; //created a sprite
 	spriteBackground.setTexture(textureBackground); //added texture with the image to this sprite
-	spriteBackground.setPosition(0, 0); //and now it covers the whole screen
+	spriteBackground.setPosition(0, 0); //and now it covers the whole screen cuz they are the same size yey
 
 	Texture textureMouse;
 	textureMouse.loadFromFile("graphics/mouse.png");
@@ -27,6 +27,7 @@ int main()
 		{
 			window.close();
 		}
+		
 		window.clear(); //clears the last frme
 
 		window.draw(spriteBackground); //draws the game
