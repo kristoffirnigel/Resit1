@@ -1,19 +1,20 @@
 #include "stdafx.h"
 #include <SFML/Graphics.hpp>
 #include "Player.h"
+#include "ResitMouseGame.h"
 
 using namespace sf; //makes everything easier
 
 int main()
 {
-	enum class State
+	enum class State //here we create a class for different states that the game can be inat a time
 	{
-		PAUSED, GAME_OVER, PLAYING
+		PAUSED, MENU, GAME_OVER, PLAYING
 	};
-	State state = State::PLAYING;
+	State state = State::PAUSED; //the game will start in paused state
 
 	Vector2f resolution;
-	resolution.x = VideoMode::getDesktopMode().width;
+	resolution.x = VideoMode::getDesktopMode().width; //used VideoMode to get the desktop resolution and set up the window
 	resolution.y = VideoMode::getDesktopMode().height;
 
 	RenderWindow window(VideoMode(resolution.x, resolution.y), "Resit Mouse Game", Style::Fullscreen);
@@ -23,19 +24,17 @@ int main()
 	Clock clock;
 	Time gameTimeTotal;
 
-	Vector2f moseWorldPosition;
+	Vector2f mouseWorldPosition;
 	Vector2i mouseScreenPosition;
 
-	Player player;
+	Player player; //instance of the player class
 
 	IntRect arena;
-
-	Texture textureBackground; //created a texture
-	textureBackground.loadFromFile("graphics/background.png"); //added an image file to it
-	Sprite spriteBackground; //created a sprite
-	spriteBackground.setTexture(textureBackground); //added texture with the image to this sprite
-	spriteBackground.setPosition(0, 0); //and now it covers the whole screen cuz they are the same size yey
-
+	//here we create a background
+	VertexArray background;
+	Texture textureBackground; 
+	textureBackground.loadFromFile("graphics/background.png"); 
+	
 	while(window.isOpen()) //HERE COMES THE MAIN GAME LOOP
 	{
 		/*INPUT*/
@@ -66,7 +65,7 @@ int main()
 			window.close();
 		}
 
-		if (state == State::PLAYING)
+		if (state == State::PLAYING) //keyboard controlls, pretty straight forward
 		{
 			if (Keyboard::isKeyPressed(Keyboard::W))
 			{
@@ -100,6 +99,27 @@ int main()
 			{
 				player.stopRight();
 			}
+		} //inpust end here
+
+		if (state == State::PAUSED)
+		{
+			if (event.key.code == Keyboard::Return)
+			{
+				state == State::PLAYING;
+			}
+			if (state == State::PLAYING)
+			{
+				arena.width = 500;
+				arena.height = 500;
+				arena.left = 0;
+				arena.top = 0;
+
+				int tileSize = createBackground(background, arena);
+
+				player.spawn(arena, resolution, tileSize);
+
+				clock.restart();
+			}
 		}
 
 		/*HERE COME DE UPDATES*/
@@ -107,28 +127,41 @@ int main()
 		if (state == State::PLAYING)
 		{
 			Time dt = clock.restart();
+
 			gameTimeTotal += dt;
+
 			float dtAsSeconds = dt.asSeconds();
 
 			mouseScreenPosition = Mouse::getPosition();
 
-			moseWorldPosition = window.mapPixelToCoords(Mouse::getPosition(), mainView);
+			mouseWorldPosition = window.mapPixelToCoords(Mouse::getPosition(), mainView);
 
 			player.update(dtAsSeconds, Mouse::getPosition());
 
 			Vector2f playerPosition(player.getCenter());
 
 			mainView.setCenter(player.getCenter());
-		}
+		} //updates end here
 
 		/*HERE WE DRAW*/
 
 		if (state == State::PLAYING)
 		{
 			window.clear();
+
 			window.setView(mainView);
-			window.draw(spriteBackground);
+
+			window.draw(background, &textureBackground);
+			
 			window.draw(player.getSprite());
+		}
+		if (state == State::PAUSED)
+		{
+
+		}
+		if (state == State::GAME_OVER)
+		{
+
 		}
 
 		window.display();

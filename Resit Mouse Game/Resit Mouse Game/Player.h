@@ -7,7 +7,7 @@ using namespace sf;
 class Player
 {
 private:
-	const float START_SPEED = 50;
+	const float START_SPEED = 150;
 
 	Vector2f m_Position; //for collisions later
 	Sprite m_Sprite; //to draw the mouse

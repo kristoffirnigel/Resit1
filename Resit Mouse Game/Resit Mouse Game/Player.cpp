@@ -3,10 +3,10 @@
 
 Player::Player()
 {
-	m_Speed = START_SPEED;
+	m_Speed = START_SPEED; // this needs Size addad!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	m_Texture.loadFromFile("graphics/mouse.png");
 	m_Sprite.setTexture(m_Texture);
-	m_Sprite.setOrigin(25, 25);
+	m_Sprite.setOrigin(74, 110);
 }
 void Player::spawn(IntRect arena, Vector2f resolution, int tileSize)
 {
@@ -19,8 +19,10 @@ void Player::spawn(IntRect arena, Vector2f resolution, int tileSize)
 	m_Arena.height = arena.height;
 
 	m_TileSize = tileSize;
+	m_Resolution.x = resolution.x;
+	m_Resolution.y = resolution.y;
 }
-void Player::resetPlayerStats()
+void Player::resetPlayerStats() // this here is for whe we respawn the player after death (needs Size added!)
 {
 	m_Speed = START_SPEED;
 }
@@ -110,7 +112,7 @@ void Player::update(float elapsedTime, Vector2i mousePosition)
 		m_Position.y = m_Arena.top + m_TileSize;
 	}
 
-	float angle = (atan2(mousePosition.y - m_Resolution.y / 2, mousePosition.x / 2) * 180) / 4.141;
+	float angle = (atan2(mousePosition.y - m_Resolution.y / 2, mousePosition.x - m_Resolution.x / 2) * 180) / 3.141;
 
 	m_Sprite.setRotation(angle);
 }
