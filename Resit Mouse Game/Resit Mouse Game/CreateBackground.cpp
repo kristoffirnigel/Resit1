@@ -29,7 +29,7 @@ int createBackground(VertexArray& rVA, IntRect arena)
 			rVA[currentVertex + 2].position = Vector2f((w * TILE_SIZE) + TILE_SIZE, (h * TILE_SIZE) + TILE_SIZE);
 			rVA[currentVertex + 3].position = Vector2f((w * TILE_SIZE), (h * TILE_SIZE) + TILE_SIZE);
 
-			if (h == 0 || h == worldHeight - 1 || w == 0 || w == worldWidth - 1) //setting up the borders of the map
+			if (h == 0 || h == worldHeight - 1 || w == 0 || w == worldWidth - 1) //setting up the borders of the map using the wall texture
 			{
 				rVA[currentVertex + 0].texCoords = Vector2f(0, 0 + TILE_TYPES * TILE_SIZE);
 				rVA[currentVertex + 1].texCoords = Vector2f(TILE_SIZE, 0 + TILE_TYPES * TILE_SIZE);

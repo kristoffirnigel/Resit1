@@ -11,7 +11,7 @@ int main()
 	{
 		PAUSED, MENU, GAME_OVER, PLAYING
 	};
-	State state = State::PAUSED; //the game will start in paused state
+	State state = State::GAME_OVER; //the game will start in game over state
 
 	Vector2f resolution;
 	resolution.x = VideoMode::getDesktopMode().width; //used VideoMode to get the desktop resolution and set up the window
@@ -53,7 +53,11 @@ int main()
 					state = State::PLAYING;
 					clock.restart();
 				}
-				if (state == State::GAME_OVER)
+				else if (event.key.code == Keyboard::Return && state == State::GAME_OVER)
+				{
+					state = State::MENU;
+				}
+				if (state == State::PLAYING)
 				{
 
 				}
@@ -65,7 +69,7 @@ int main()
 			window.close();
 		}
 
-		if (state == State::PLAYING) //keyboard controlls, pretty straight forward
+		if (state == State::PLAYING) //keyboard controlls, pretty straight forward WASD
 		{
 			if (Keyboard::isKeyPressed(Keyboard::W))
 			{
@@ -101,16 +105,16 @@ int main()
 			}
 		} //inpust end here
 
-		if (state == State::PAUSED)
+		if (state == State::MENU)
 		{
 			if (event.key.code == Keyboard::Return)
 			{
-				state == State::PLAYING;
+				state = State::PLAYING;
 			}
 			if (state == State::PLAYING)
 			{
-				arena.width = 500;
-				arena.height = 500;
+				arena.width = 540;
+				arena.height = 540;
 				arena.left = 0;
 				arena.top = 0;
 
@@ -122,7 +126,7 @@ int main()
 			}
 		}
 
-		/*HERE COME DE UPDATES*/
+			/*HERE COME DE UPDATES*/
 
 		if (state == State::PLAYING)
 		{
@@ -142,8 +146,8 @@ int main()
 
 			mainView.setCenter(player.getCenter());
 		} //updates end here
-
-		/*HERE WE DRAW*/
+		  
+		  /*HERE WE DRAW*/
 
 		if (state == State::PLAYING)
 		{
@@ -152,8 +156,12 @@ int main()
 			window.setView(mainView);
 
 			window.draw(background, &textureBackground);
-			
+
 			window.draw(player.getSprite());
+		}
+		if (state == State::MENU)
+		{
+
 		}
 		if (state == State::PAUSED)
 		{
