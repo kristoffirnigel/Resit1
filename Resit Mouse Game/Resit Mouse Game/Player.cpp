@@ -107,24 +107,6 @@ void Player::update(float elapsedTime, Vector2i mousePosition)
 	m_Position.x += speed * cos(radian);
 	m_Position.y += speed * sin(radian);
 
-	/*if (m_UpPressed)
-	{
-		m_Position.y -= m_Speed * elapsedTime;
-	}
-	if (m_DownPressed)
-	{
-		m_Position.y += m_Speed * elapsedTime;
-	}
-	if (m_RightPressed)
-	{
-		m_Position.x += m_Speed * elapsedTime;
-	}
-	if (m_LeftPressed)
-	{
-		m_Position.x -= m_Speed * elapsedTime;
-	}*/
-
-
 	m_Sprite.setPosition(m_Position);
 
 	if (m_Position.x > m_Arena.width - m_TileSize)
@@ -143,8 +125,6 @@ void Player::update(float elapsedTime, Vector2i mousePosition)
 	{
 		m_Position.y = (float)(m_Arena.top + m_TileSize);
 	}
-
-	//float angle = (atan2(mousePosition.y - m_Resolution.y / 2, mousePosition.x - m_Resolution.x / 2) * 180) / 3.141;
 
 	m_Sprite.setRotation(m_Angle);
 }

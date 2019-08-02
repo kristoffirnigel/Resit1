@@ -2,6 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include "Player.h"
 #include "ResitMouseGame.h"
+#include "Pickup.h"
 
 using namespace sf; //makes everything easier
 
@@ -33,7 +34,10 @@ int main()
 	//here we create a background
 	VertexArray background; //***************HERE IS THE BACKGROUND VERTEX ARRAY!!!!!!!!!!!!!!!!!!!!!
 	Texture textureBackground; 
-	textureBackground.loadFromFile("graphics/background.png"); 
+	textureBackground.loadFromFile("graphics/background.png");
+
+	Pickup cheesePickup(1);
+	Pickup poisonPickup(2);
 	
 	while(window.isOpen()) //HERE COMES THE MAIN GAME LOOP
 	{
@@ -122,6 +126,9 @@ int main()
 
 				player.spawn(arena, resolution, tileSize);
 
+				cheesePickup.setArena(arena);
+				poisonPickup.setArena(arena);
+
 				clock.restart();
 			}
 		}
@@ -145,6 +152,10 @@ int main()
 			Vector2f playerPosition(player.getCenter()); //!!!!!!!!!!!!!!!!!!!!!
 
 			mainView.setCenter(player.getCenter()); //!!!!!!!!!!!!!!!!!!!!
+
+			cheesePickup.update(dtAsSeconds);
+			poisonPickup.update(dtAsSeconds);
+
 		} //updates end here
 		  
 		  /*HERE WE DRAW*/
@@ -158,6 +169,15 @@ int main()
 			window.draw(background, &textureBackground); //**************BACKGROUND GENERATION!!!!!!!!!!!
 
 			window.draw(player.getSprite());
+
+			if (cheesePickup.isSpawned())
+			{
+				window.draw(cheesePickup.getSprite());
+			}
+			if (poisonPickup.isSpawned())
+			{
+				window.draw(poisonPickup.getSprite());
+			}
 		}
 		if (state == State::MENU)
 		{
