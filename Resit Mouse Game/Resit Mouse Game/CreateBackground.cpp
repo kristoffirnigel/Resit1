@@ -4,7 +4,7 @@
 
 int createBackground(VertexArray& rVA, IntRect arena)
 {
-	const int TILE_SIZE = 540; //the types and sizes of different background tiles
+	const int TILE_SIZE = 180; //the types and sizes of different background tiles
 
 	const int TILE_TYPES = 3;
 
@@ -52,6 +52,4 @@ int createBackground(VertexArray& rVA, IntRect arena)
 	}
 
 	return TILE_SIZE;
-
-
 }

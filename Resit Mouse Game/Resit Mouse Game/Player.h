@@ -20,6 +20,8 @@ private:
 	bool m_LeftPressed;
 	bool m_RightPressed;
 	float m_Speed;
+	float m_Angle;
+	float m_RotationSpeed;
 
 public:
 	Player();

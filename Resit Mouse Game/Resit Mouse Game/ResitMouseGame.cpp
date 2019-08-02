@@ -29,9 +29,9 @@ int main()
 
 	Player player; //instance of the player class
 
-	IntRect arena;
+	IntRect arena; //************************HERE IS THE ARENA RECT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	//here we create a background
-	VertexArray background;
+	VertexArray background; //***************HERE IS THE BACKGROUND VERTEX ARRAY!!!!!!!!!!!!!!!!!!!!!
 	Texture textureBackground; 
 	textureBackground.loadFromFile("graphics/background.png"); 
 	
@@ -111,10 +111,10 @@ int main()
 			{
 				state = State::PLAYING;
 			}
-			if (state == State::PLAYING)
+			if (state == State::PLAYING) //**************************HERE IS THE ARENA GENERATION BETWEEN MENUS!!!!
 			{
-				arena.width = 540;
-				arena.height = 540;
+				arena.width = 1080;
+				arena.height = 1080;
 				arena.left = 0;
 				arena.top = 0;
 
@@ -136,15 +136,15 @@ int main()
 
 			float dtAsSeconds = dt.asSeconds();
 
-			mouseScreenPosition = Mouse::getPosition();
+			mouseScreenPosition = Mouse::getPosition();  //**********************HERE IS THE MOUSE UPDATE!!!!!!!
 
-			mouseWorldPosition = window.mapPixelToCoords(Mouse::getPosition(), mainView);
+			mouseWorldPosition = window.mapPixelToCoords(Mouse::getPosition(), mainView); //!!!!!!!!!!!!!!
 
-			player.update(dtAsSeconds, Mouse::getPosition());
+			player.update(dtAsSeconds, Mouse::getPosition()); //!!!!!!!!!!!!!!!!!!
 
-			Vector2f playerPosition(player.getCenter());
+			Vector2f playerPosition(player.getCenter()); //!!!!!!!!!!!!!!!!!!!!!
 
-			mainView.setCenter(player.getCenter());
+			mainView.setCenter(player.getCenter()); //!!!!!!!!!!!!!!!!!!!!
 		} //updates end here
 		  
 		  /*HERE WE DRAW*/
@@ -155,7 +155,7 @@ int main()
 
 			window.setView(mainView);
 
-			window.draw(background, &textureBackground);
+			window.draw(background, &textureBackground); //**************BACKGROUND GENERATION!!!!!!!!!!!
 
 			window.draw(player.getSprite());
 		}

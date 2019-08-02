@@ -4,6 +4,7 @@
 Player::Player()
 {
 	m_Speed = START_SPEED; // this needs Size addad!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	m_RotationSpeed = 200;
 	m_Texture.loadFromFile("graphics/mouse.png");
 	m_Sprite.setTexture(m_Texture);
 	m_Sprite.setOrigin(74, 110);
@@ -22,7 +23,7 @@ void Player::spawn(IntRect arena, Vector2f resolution, int tileSize)
 	m_Resolution.x = resolution.x;
 	m_Resolution.y = resolution.y;
 }
-void Player::resetPlayerStats() // this here is for whe we respawn the player after death (needs Size added!)
+void Player::resetPlayerStats() // this here is for when we respawn the player after death (needs Size added!)
 {
 	m_Speed = START_SPEED;
 }
@@ -68,7 +69,7 @@ void Player::stopRight()
 }
 void Player::stopUp()
 {
-	m_RightPressed = false;
+	m_UpPressed = false;
 }
 void Player::stopDown()
 {
@@ -76,7 +77,37 @@ void Player::stopDown()
 }
 void Player::update(float elapsedTime, Vector2i mousePosition)
 {
+	float speed = 0;
 	if (m_UpPressed)
+	{
+		speed -= m_Speed * elapsedTime;
+	}
+	if (m_DownPressed)
+	{
+		speed += m_Speed * elapsedTime;
+	}
+	if (m_RightPressed)
+	{
+		m_Angle -= m_RotationSpeed * elapsedTime;
+		if (m_Angle < 0)
+		{
+			m_Angle += 360;
+		}
+	}
+	if (m_LeftPressed)
+	{
+		m_Angle += m_RotationSpeed * elapsedTime;
+		if (m_Angle > 360)
+		{
+			m_Angle -= 360;
+		}
+	}
+	float radian = m_Angle / 180 * 3.141;
+
+	m_Position.x += speed * cos(radian);
+	m_Position.y += speed * sin(radian);
+
+	/*if (m_UpPressed)
 	{
 		m_Position.y -= m_Speed * elapsedTime;
 	}
@@ -91,7 +122,8 @@ void Player::update(float elapsedTime, Vector2i mousePosition)
 	if (m_LeftPressed)
 	{
 		m_Position.x -= m_Speed * elapsedTime;
-	}
+	}*/
+
 
 	m_Sprite.setPosition(m_Position);
 
@@ -109,12 +141,12 @@ void Player::update(float elapsedTime, Vector2i mousePosition)
 	}
 	if (m_Position.y < m_Arena.top + m_TileSize)
 	{
-		m_Position.y = m_Arena.top + m_TileSize;
+		m_Position.y = (float)(m_Arena.top + m_TileSize);
 	}
 
-	float angle = (atan2(mousePosition.y - m_Resolution.y / 2, mousePosition.x - m_Resolution.x / 2) * 180) / 3.141;
+	//float angle = (atan2(mousePosition.y - m_Resolution.y / 2, mousePosition.x - m_Resolution.x / 2) * 180) / 3.141;
 
-	m_Sprite.setRotation(angle);
+	m_Sprite.setRotation(m_Angle);
 }
 
 
