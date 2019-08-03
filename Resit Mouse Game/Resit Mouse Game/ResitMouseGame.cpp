@@ -13,7 +13,7 @@ int main()
 	{
 		PAUSED, MENU, GAME_OVER, PLAYING
 	};
-	State state = State::GAME_OVER; //the game will start in game over state
+	State state = State::MENU; //the game will start in Menu state
 
 	Vector2f resolution;
 	resolution.x = VideoMode::getDesktopMode().width; //used VideoMode to get the desktop resolution and set up the window
@@ -48,13 +48,13 @@ int main()
 	Texture textureMenu;
 	textureMenu.loadFromFile("graphics/menu");
 	spriteMenu.setTexture(textureMenu);
-	spriteMenu.setPosition(1080, 0);
+	spriteMenu.setPosition(0, 0);
 
 	Sprite spriteGameOver;
 	Texture textureGameOver;
 	textureGameOver.loadFromFile("graphics/gameOver.png");
 	spriteGameOver.setTexture(textureGameOver);
-	spriteGameOver.setPosition(1080, 0);
+	spriteGameOver.setPosition(0, 0);
 
 	View hudView(sf::FloatRect(0, 0, resolution.x, resolution.y)); //new view for hud!
 
@@ -188,9 +188,7 @@ int main()
 
 			float dtAsSeconds = dt.asSeconds();
 
-			mouseScreenPosition = Mouse::getPosition();  //**********************HERE IS THE MOUSE UPDATE!!!!!!!
-
-			mouseWorldPosition = window.mapPixelToCoords(Mouse::getPosition(), mainView); 
+			mainView.setCenter(player.getCenter());
 
 			player.update(dtAsSeconds, Mouse::getPosition()); //!!!!!!!!!!!!!!!!!!
 
@@ -269,14 +267,17 @@ int main()
 		}
 		if (state == State::MENU)
 		{
+			window.setView(mainView);
 			window.draw(spriteMenu);
 		}
 		if (state == State::PAUSED)
 		{
+			window.setView(hudView);
 			window.draw(pausedText);
 		}
 		if (state == State::GAME_OVER)
 		{
+			window.setView(mainView);
 			window.draw(spriteGameOver);
 			window.draw(scoreText);
 			window.draw(highScoreText);
