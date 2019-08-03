@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include <sstream>
 #include <SFML/Graphics.hpp>
 #include "Player.h"
 #include "ResitMouseGame.h"
@@ -12,7 +13,7 @@ int main()
 	{
 		PAUSED, MENU, GAME_OVER, PLAYING
 	};
-	State state = State::GAME_OVER; //the game will start in game over state
+	State state = State::MENU; //the game will start in game over state
 
 	Vector2f resolution;
 	resolution.x = VideoMode::getDesktopMode().width; //used VideoMode to get the desktop resolution and set up the window
@@ -42,7 +43,45 @@ int main()
 
 	int score = 0;
 	int highScore = 0;
+
+	Sprite spriteGameOver;
+	Texture textureGameOver;
+	textureGameOver.loadFromFile("graphics/gameOver.png");
+	spriteGameOver.setTexture(textureGameOver);
+	spriteGameOver.setPosition(0, 0);
+
+	Sprite spriteMenu;
+	Texture textureMenu;
+	textureMenu.loadFromFile("graphics/menu");
+	spriteMenu.setTexture(textureMenu);
+	spriteMenu.setPosition(0, 0);
+
+	View hudView(sf::FloatRect(0, 0, resolution.x, resolution.y)); //new view for hud!
+
+	Font font;
+	font.loadFromFile("fonts/KOMIKAP_.ttf");
+
+	Text pausedText;
+	pausedText.setFont(font);
+	pausedText.setCharacterSize(90);
+	pausedText.setString("PAUSED");
+
+	Text highScoreText;
+	highScoreText.setFont(font);
+	highScoreText.setCharacterSize(50);
+	highScoreText.setPosition(980, 90);
+	std::stringstream s;
+	s << "HIGH SCORE:" << highScore;
+	highScoreText.setString(s.str());
+
+	Text scoreText;
+	scoreText.setFont(font);
+	scoreText.setCharacterSize(60);
+	scoreText.setPosition(500, 90);
 	
+	int lastHudUpdate = 0;
+	int fpsInterval = 1000;
+
 	while(window.isOpen()) //HERE COMES THE MAIN GAME LOOP
 	{
 		/*INPUT*/
@@ -65,9 +104,9 @@ int main()
 				{
 					state = State::MENU;
 				}
-				if (state == State::PLAYING)
+				else if (event.key.code == Keyboard::Return && state == State::MENU)
 				{
-
+					state = State::PLAYING;
 				}
 			}
 		} //here is the end of event management
@@ -179,6 +218,21 @@ int main()
 				state = State::GAME_OVER;
 			}
 
+			lastHudUpdate++;
+			if (lastHudUpdate > fpsInterval)
+			{
+				std::stringstream ssScore;
+				std::stringstream ssHighScore;
+
+				ssScore << "YOUR SCORE:" << score;
+				scoreText.setString(ssScore.str());
+
+				ssHighScore << "HIGH SCORE:" << highScore;
+				highScoreText.setString(ssHighScore.str());
+
+				lastHudUpdate = 0;
+			}
+
 		} //updates end here
 		  
 		  /*HERE WE DRAW*/
@@ -205,19 +259,23 @@ int main()
 			{
 				window.draw(trapPickup.getSprite());
 			}
+			window.draw(scoreText);
+			window.draw(highScoreText);
 
 		}
 		if (state == State::MENU)
 		{
-
+			window.draw(spriteMenu);
 		}
 		if (state == State::PAUSED)
 		{
-
+			window.draw(pausedText);
 		}
 		if (state == State::GAME_OVER)
 		{
-
+			window.draw(spriteGameOver);
+			window.draw(scoreText);
+			window.draw(highScoreText);
 		}
 
 		window.display();
