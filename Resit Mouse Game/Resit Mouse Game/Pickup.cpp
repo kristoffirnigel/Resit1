@@ -8,19 +8,18 @@ Pickup::Pickup(int type) //setting up 3 different types for the 3 different pick
 	{
 		m_Texture.loadFromFile("graphics/cheese.png");
 		m_Sprite.setTexture(m_Texture);
-		m_Value = GROTH_RATE;
+		m_Value = 1;
 	}
 	else if (m_Type == 2)
 	{
 		m_Texture.loadFromFile("graphics/poison.png");
 		m_Sprite.setTexture(m_Texture);
-		m_Value = SHRINK_RATE;
+		m_Value = -2;
 	}
 	else
 	{
 		m_Texture.loadFromFile("graphics/trap.png");
 		m_Sprite.setTexture(m_Texture);
-		m_Value = 0;
 	}
 	m_Sprite.setOrigin(90, 90);
 
@@ -80,16 +79,5 @@ void Pickup::update(float elapsedTime)
 	if (m_SecondsSinceDestroy > m_SecondsToWait && !m_Spawned)
 	{
 		spawn();
-	}
-}
-void Pickup::change()
-{
-	if (m_Type == 1)
-	{
-		m_Value += (GROTH_RATE * .5);
-	}
-	else
-	{
-		m_Value += (SHRINK_RATE * .5);
 	}
 }

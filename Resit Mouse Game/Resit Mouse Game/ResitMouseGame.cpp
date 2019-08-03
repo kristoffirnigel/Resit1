@@ -39,6 +39,9 @@ int main()
 	Pickup cheesePickup(1);
 	Pickup poisonPickup(2);
 	Pickup trapPickup(3);
+
+	int score = 0;
+	int highScore = 0;
 	
 	while(window.isOpen()) //HERE COMES THE MAIN GAME LOOP
 	{
@@ -135,7 +138,7 @@ int main()
 			}
 		}
 
-			/*HERE COME DE UPDATES*/
+			/*HERE COME THE UPDATES*/
 
 		if (state == State::PLAYING)
 		{
@@ -158,6 +161,23 @@ int main()
 			cheesePickup.update(dtAsSeconds);
 			poisonPickup.update(dtAsSeconds);
 			trapPickup.update(dtAsSeconds);
+
+			if (player.getPosition().intersects(cheesePickup.getPosition()) && cheesePickup.isSpawned())
+			{
+				score += cheesePickup.gotIt();
+				if (score >= highScore)
+				{
+					highScore = score;
+				}
+			}
+			if (player.getPosition().intersects(poisonPickup.getPosition()) && poisonPickup.isSpawned())
+			{
+				score -= poisonPickup.gotIt();
+			}
+			if (player.getPosition().intersects(trapPickup.getPosition()) && trapPickup.isSpawned())
+			{
+				state = State::GAME_OVER;
+			}
 
 		} //updates end here
 		  

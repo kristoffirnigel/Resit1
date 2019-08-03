@@ -6,8 +6,8 @@ using namespace sf;
 class Pickup
 {
 private :
-	const int GROTH_RATE = 50;
-	const int SHRINK_RATE = 50;
+	const int GROTH_RATE = 0;
+	// const int SHRINK_RATE = 50;
 	const int START_WAIT_TIME = 0;
 	const int START_COUNTDOWN = 5;
 
