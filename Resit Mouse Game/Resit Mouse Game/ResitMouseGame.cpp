@@ -13,7 +13,7 @@ int main()
 	{
 		PAUSED, MENU, GAME_OVER, PLAYING
 	};
-	State state = State::MENU; //the game will start in game over state
+	State state = State::GAME_OVER; //the game will start in game over state
 
 	Vector2f resolution;
 	resolution.x = VideoMode::getDesktopMode().width; //used VideoMode to get the desktop resolution and set up the window
@@ -44,17 +44,17 @@ int main()
 	int score = 0;
 	int highScore = 0;
 
-	Sprite spriteGameOver;
-	Texture textureGameOver;
-	textureGameOver.loadFromFile("graphics/gameOver.png");
-	spriteGameOver.setTexture(textureGameOver);
-	spriteGameOver.setPosition(0, 0);
-
 	Sprite spriteMenu;
 	Texture textureMenu;
 	textureMenu.loadFromFile("graphics/menu");
 	spriteMenu.setTexture(textureMenu);
-	spriteMenu.setPosition(0, 0);
+	spriteMenu.setPosition(1080, 0);
+
+	Sprite spriteGameOver;
+	Texture textureGameOver;
+	textureGameOver.loadFromFile("graphics/gameOver.png");
+	spriteGameOver.setTexture(textureGameOver);
+	spriteGameOver.setPosition(1080, 0);
 
 	View hudView(sf::FloatRect(0, 0, resolution.x, resolution.y)); //new view for hud!
 
@@ -64,20 +64,21 @@ int main()
 	Text pausedText;
 	pausedText.setFont(font);
 	pausedText.setCharacterSize(90);
+	pausedText.setPosition(720, 540);
 	pausedText.setString("PAUSED");
 
 	Text highScoreText;
 	highScoreText.setFont(font);
-	highScoreText.setCharacterSize(50);
-	highScoreText.setPosition(980, 90);
+	highScoreText.setCharacterSize(25);
+	highScoreText.setPosition(1000, 0);
 	std::stringstream s;
 	s << "HIGH SCORE:" << highScore;
 	highScoreText.setString(s.str());
 
 	Text scoreText;
 	scoreText.setFont(font);
-	scoreText.setCharacterSize(60);
-	scoreText.setPosition(500, 90);
+	scoreText.setCharacterSize(25);
+	scoreText.setPosition(440, 0);
 	
 	int lastHudUpdate = 0;
 	int fpsInterval = 1000;
@@ -259,6 +260,9 @@ int main()
 			{
 				window.draw(trapPickup.getSprite());
 			}
+
+			window.setView(hudView);
+
 			window.draw(scoreText);
 			window.draw(highScoreText);
 
