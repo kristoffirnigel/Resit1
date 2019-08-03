@@ -4,7 +4,8 @@
 Player::Player()
 {
 	m_Speed = START_SPEED; // this needs Size addad!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-	m_RotationSpeed = 200;
+	m_Angle = 0;
+	m_RotationSpeed = 100;
 	m_Texture.loadFromFile("graphics/mouse.png");
 	m_Sprite.setTexture(m_Texture);
 	m_Sprite.setOrigin(74, 110);
@@ -86,7 +87,7 @@ void Player::update(float elapsedTime, Vector2i mousePosition)
 	{
 		speed += m_Speed * elapsedTime;
 	}
-	if (m_RightPressed)
+	if (m_LeftPressed)
 	{
 		m_Angle -= m_RotationSpeed * elapsedTime;
 		if (m_Angle < 0)
@@ -94,7 +95,7 @@ void Player::update(float elapsedTime, Vector2i mousePosition)
 			m_Angle += 360;
 		}
 	}
-	if (m_LeftPressed)
+	if (m_RightPressed)
 	{
 		m_Angle += m_RotationSpeed * elapsedTime;
 		if (m_Angle > 360)
@@ -124,6 +125,7 @@ void Player::update(float elapsedTime, Vector2i mousePosition)
 		m_Position.x -= m_Speed * elapsedTime;
 	}*/
 
+	m_Sprite.setRotation(m_Angle - 90);
 
 	m_Sprite.setPosition(m_Position);
 
@@ -146,7 +148,7 @@ void Player::update(float elapsedTime, Vector2i mousePosition)
 
 	//float angle = (atan2(mousePosition.y - m_Resolution.y / 2, mousePosition.x - m_Resolution.x / 2) * 180) / 3.141;
 
-	m_Sprite.setRotation(m_Angle);
+	//m_Sprite.setRotation(m_Angle);
 }
 
 
