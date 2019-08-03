@@ -123,7 +123,7 @@ void Player::update(float elapsedTime, Vector2i mousePosition)
 	}
 	if (m_Position.y < m_Arena.top + m_TileSize)
 	{
-		m_Position.y = (float)(m_Arena.top + m_TileSize);
+		m_Position.y = m_Arena.top + m_TileSize;
 	}
 
 	m_Sprite.setRotation(m_Angle);

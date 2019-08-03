@@ -145,13 +145,13 @@ int main()
 
 			mouseScreenPosition = Mouse::getPosition();  //**********************HERE IS THE MOUSE UPDATE!!!!!!!
 
-			mouseWorldPosition = window.mapPixelToCoords(Mouse::getPosition(), mainView); //!!!!!!!!!!!!!!
+			mouseWorldPosition = window.mapPixelToCoords(Mouse::getPosition(), mainView); 
 
 			player.update(dtAsSeconds, Mouse::getPosition()); //!!!!!!!!!!!!!!!!!!
 
-			Vector2f playerPosition(player.getCenter()); //!!!!!!!!!!!!!!!!!!!!!
+			Vector2f playerPosition(player.getCenter()); 
 
-			mainView.setCenter(player.getCenter()); //!!!!!!!!!!!!!!!!!!!!
+			mainView.setCenter(player.getCenter());  
 
 			cheesePickup.update(dtAsSeconds);
 			poisonPickup.update(dtAsSeconds);
@@ -178,6 +178,7 @@ int main()
 			{
 				window.draw(poisonPickup.getSprite());
 			}
+
 		}
 		if (state == State::MENU)
 		{
