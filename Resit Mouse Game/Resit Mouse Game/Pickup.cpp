@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Pickup.h"
 
-Pickup::Pickup(int type)
+Pickup::Pickup(int type) //setting up 3 different types for the 3 different pickups: cheese poison and trap
 {
 	m_Type = type;
 	if (m_Type == 1)
@@ -10,18 +10,24 @@ Pickup::Pickup(int type)
 		m_Sprite.setTexture(m_Texture);
 		m_Value = GROTH_RATE;
 	}
-	else
+	else if (m_Type == 2)
 	{
 		m_Texture.loadFromFile("graphics/poison.png");
 		m_Sprite.setTexture(m_Texture);
 		m_Value = SHRINK_RATE;
+	}
+	else
+	{
+		m_Texture.loadFromFile("graphics/trap.png");
+		m_Sprite.setTexture(m_Texture);
+		m_Value = 0;
 	}
 	m_Sprite.setOrigin(90, 90);
 
 	m_SecondsLeft = START_COUNTDOWN;
 	m_SecondsToWait = START_WAIT_TIME;
 }
-void Pickup::setArena(IntRect arena)
+void Pickup::setArena(IntRect arena) //telling the class the borger within which it can spawn (doesn`t seem to work tho)
 {
 	m_Arena.left = arena.left + 180;
 	m_Arena.width = arena.width - 180;
@@ -30,11 +36,9 @@ void Pickup::setArena(IntRect arena)
 
 	spawn();
 }
-void Pickup::spawn()
+void Pickup::spawn() //random number generator uses info from the previous function for spawning
 {
-	srand((int)time(0) / m_Type);
 	int x = (rand() % m_Arena.width);
-	srand((int)time(0) * m_Type);
 	int y = (rand() % m_Arena.height);
 	m_SecondsSinceSpawn = 0;
 	m_Spawned = true;

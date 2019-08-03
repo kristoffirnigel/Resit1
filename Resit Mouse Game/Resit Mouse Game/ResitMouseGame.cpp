@@ -38,6 +38,7 @@ int main()
 
 	Pickup cheesePickup(1);
 	Pickup poisonPickup(2);
+	Pickup trapPickup(3);
 	
 	while(window.isOpen()) //HERE COMES THE MAIN GAME LOOP
 	{
@@ -128,6 +129,7 @@ int main()
 
 				cheesePickup.setArena(arena);
 				poisonPickup.setArena(arena);
+				trapPickup.setArena(arena);
 
 				clock.restart();
 			}
@@ -155,6 +157,7 @@ int main()
 
 			cheesePickup.update(dtAsSeconds);
 			poisonPickup.update(dtAsSeconds);
+			trapPickup.update(dtAsSeconds);
 
 		} //updates end here
 		  
@@ -177,6 +180,10 @@ int main()
 			if (poisonPickup.isSpawned())
 			{
 				window.draw(poisonPickup.getSprite());
+			}
+			if (trapPickup.isSpawned())
+			{
+				window.draw(trapPickup.getSprite());
 			}
 
 		}
