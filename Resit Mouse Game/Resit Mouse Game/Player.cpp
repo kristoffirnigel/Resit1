@@ -28,6 +28,24 @@ void Player::resetPlayerStats()
 {
 	m_Speed = START_SPEED;
 }
+/**********************************************************************************************************/
+Time Player::getLastBiteTime()
+{
+	return m_LastBite;
+}
+bool Player::bite(Time timeBite)
+{
+	if (timeBite.asMilliseconds() - m_LastBite.asMilliseconds() > 200)
+	{
+		m_LastBite = timeBite;
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+/**********************************************************************************************************/
 FloatRect Player::getPosition()
 {
 	return m_Sprite.getGlobalBounds();

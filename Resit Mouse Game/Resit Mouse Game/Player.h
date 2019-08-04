@@ -22,11 +22,14 @@ private:
 	float m_Speed;
 	float m_Angle;
 	float m_RotationSpeed;
+	Time m_LastBite;
 
 public:
 	Player();
 	void spawn(IntRect arena, Vector2f resolution, int tileSize);
 	void resetPlayerStats();
+	bool bite(Time timeBite);
+	Time getLastBiteTime();
 	FloatRect getPosition();
 	Vector2f getCenter();
 	float getRotation();

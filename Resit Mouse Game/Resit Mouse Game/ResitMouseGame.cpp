@@ -1,12 +1,13 @@
 #include "stdafx.h"
 #include <sstream>
+#include <fstream>
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include "Player.h"
 #include "ResitMouseGame.h"
 #include "Pickup.h"
 
-using namespace sf; //makes everything easier
+using namespace sf;
 
 int main()
 {
@@ -22,30 +23,26 @@ int main()
 
 	RenderWindow window(VideoMode(resolution.x, resolution.y), "Resit Mouse Game", Style::Fullscreen);
 
-	View mainView(sf::FloatRect(0, 0, resolution.x, resolution.y));
+	View mainView(sf::FloatRect(0, 0, resolution.x, resolution.y)); //here we set up the main view from the top corner
 
 	Clock clock;
 	Time gameTimeTotal;
 
-	//Vector2f mouseWorldPosition;
-	//Vector2i mouseScreenPosition;
-
 	Player player; //instance of the player class
 
-	IntRect arena;
-	//here we create a background
+	IntRect arena; //here we create a background
 	VertexArray background;
 	Texture textureBackground; 
 	textureBackground.loadFromFile("graphics/background.png");
 
-	Pickup cheesePickup(1);
+	Pickup cheesePickup(1); //all three tpes of pickups
 	Pickup poisonPickup(2);
 	Pickup trapPickup(3);
 
-	int score = 0;
+	int score = 0; //score and high score that is ment toincreas and decreas with pickups
 	int highScore = 0;
 
-	Sprite spriteMenu;
+	Sprite spriteMenu; //sprites for the manu and the game over screens
 	Texture textureMenu;
 	textureMenu.loadFromFile("graphics/menu.png");
 	spriteMenu.setTexture(textureMenu);
@@ -59,10 +56,10 @@ int main()
 
 	View hudView(sf::FloatRect(0, 0, resolution.x, resolution.y)); //new view for hud!
 
-	Font font;
+	Font font; //loading font from file
 	font.loadFromFile("fonts/KOMIKAP_.ttf");
 
-	Text pausedText;
+	Text pausedText; //creating hud elements, score signs on the side, paused sign in the midle
 	pausedText.setFont(font);
 	pausedText.setCharacterSize(90);
 	pausedText.setPosition(720, 540);
@@ -80,6 +77,13 @@ int main()
 	scoreText.setFont(font);
 	scoreText.setCharacterSize(25);
 	scoreText.setPosition(1100, 180);
+
+	std::ifstream inputFile("gameData/scores.txt");
+	if (inputFile.is_open())
+	{
+		inputFile >> highScore;
+		inputFile.close();
+	}
 	
 	int lastHudUpdate = 0;
 	int fpsInterval = 1000;
@@ -94,10 +98,10 @@ int main()
 	Sound die;
 	die.setBuffer(dieBuffer);
 
-	SoundBuffer stepBuffer;
-	stepBuffer.loadFromFile("sounds/steps.wav");
-	Sound step;
-	step.setBuffer(stepBuffer);
+	SoundBuffer musicBuffer;
+	musicBuffer.loadFromFile("sounds/themeMusic.wav");
+	Sound music;
+	music.setBuffer(musicBuffer);
 
 	while(window.isOpen()) //HERE COMES THE MAIN GAME LOOP
 	{
@@ -216,19 +220,25 @@ int main()
 
 			if (player.getPosition().intersects(cheesePickup.getPosition()) && cheesePickup.isSpawned())
 			{
+				player.bite(gameTimeTotal); /*******************************************************************************/
 				score += cheesePickup.gotIt();
 				bite.play();
 			}
 			if (player.getPosition().intersects(poisonPickup.getPosition()) && poisonPickup.isSpawned())
 			{
+				player.bite(gameTimeTotal);/*********************************************************************************/
 				score -= poisonPickup.gotIt();
 				bite.play();
 			}
 			if (player.getPosition().intersects(trapPickup.getPosition()) && trapPickup.isSpawned())
 			{
+				player.bite(gameTimeTotal); /********************************************************************************/
 				score = score;
 				bite.play();
 				state = State::GAME_OVER;
+				std::ofstream outputFile("gameData/score.txt");
+				outputFile << highScore;
+				outputFile.close();
 			}
 			if (score >= highScore)
 			{
@@ -302,7 +312,7 @@ int main()
 			window.draw(scoreText);
 			window.draw(highScoreText);
 		}
-
+		music.play();
 		window.display();
 
 	} //THE MAIN GAME LOOP ENDS HERE
