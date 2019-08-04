@@ -70,7 +70,7 @@ int main()
 	Text highScoreText;
 	highScoreText.setFont(font);
 	highScoreText.setCharacterSize(25);
-	highScoreText.setPosition(1000, 0);
+	highScoreText.setPosition(1100, 0);
 	std::stringstream s;
 	s << "HIGH SCORE:" << highScore;
 	highScoreText.setString(s.str());
@@ -78,7 +78,7 @@ int main()
 	Text scoreText;
 	scoreText.setFont(font);
 	scoreText.setCharacterSize(25);
-	scoreText.setPosition(440, 0);
+	scoreText.setPosition(1100, 180);
 	
 	int lastHudUpdate = 0;
 	int fpsInterval = 1000;
@@ -92,7 +92,11 @@ int main()
 		{
 			if (event.type == Event::KeyPressed)
 			{
-				if (event.key.code == Keyboard::Return && state == State::PLAYING)
+				if (event.key.code == Keyboard::Return && state == State::MENU)
+				{
+					state = State::PLAYING;
+				}
+				else if (event.key.code == Keyboard::Return && state == State::PLAYING)
 				{
 					state = State::PAUSED;
 				}
@@ -104,10 +108,6 @@ int main()
 				else if (event.key.code == Keyboard::Return && state == State::GAME_OVER)
 				{
 					state = State::MENU;
-				}
-				else if (event.key.code == Keyboard::Return && state == State::MENU)
-				{
-					state = State::PLAYING;
 				}
 			}
 		} //here is the end of event management
@@ -188,13 +188,9 @@ int main()
 
 			float dtAsSeconds = dt.asSeconds();
 
-			//mainView.setCenter(player.getCenter());
-
 			player.update(dtAsSeconds, Mouse::getPosition()); //!!!!!!!!!!!!!!!!!!
 
-			Vector2f playerPosition(player.getCenter()); 
-
-			//mainView.setCenter(player.getCenter());  
+			Vector2f playerPosition(player.getCenter());   
 
 			cheesePickup.update(dtAsSeconds);
 			poisonPickup.update(dtAsSeconds);
@@ -203,10 +199,6 @@ int main()
 			if (player.getPosition().intersects(cheesePickup.getPosition()) && cheesePickup.isSpawned())
 			{
 				score += cheesePickup.gotIt();
-				if (score > highScore)
-				{
-					highScore = score;
-				}
 			}
 			if (player.getPosition().intersects(poisonPickup.getPosition()) && poisonPickup.isSpawned())
 			{
@@ -215,6 +207,10 @@ int main()
 			if (player.getPosition().intersects(trapPickup.getPosition()) && trapPickup.isSpawned())
 			{
 				state = State::GAME_OVER;
+			}
+			if (score >= highScore)
+			{
+				highScore = score;
 			}
 
 			lastHudUpdate++;
@@ -230,6 +226,10 @@ int main()
 				highScoreText.setString(ssHighScore.str());
 
 				lastHudUpdate = 0;
+			}
+			if (state == State::GAME_OVER)
+			{
+				player.resetPlayerStats();
 			}
 
 		} //updates end here

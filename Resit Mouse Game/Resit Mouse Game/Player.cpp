@@ -3,7 +3,7 @@
 
 Player::Player()
 {
-	m_Speed = START_SPEED; // this needs Size addad!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	m_Speed = START_SPEED;
 	m_Angle = 0;
 	m_RotationSpeed = 100;
 	m_Texture.loadFromFile("graphics/mouse.png");
@@ -24,7 +24,7 @@ void Player::spawn(IntRect arena, Vector2f resolution, int tileSize)
 	m_Resolution.x = resolution.x;
 	m_Resolution.y = resolution.y;
 }
-void Player::resetPlayerStats() // this here is for when we respawn the player after death (needs Size added!)
+void Player::resetPlayerStats()
 {
 	m_Speed = START_SPEED;
 }
