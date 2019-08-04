@@ -28,10 +28,10 @@ Pickup::Pickup(int type) //setting up 3 different types for the 3 different pick
 }
 void Pickup::setArena(IntRect arena) //telling the class the borger within which it can spawn (doesn`t seem to work tho)
 {
-	m_Arena.left = arena.left + 180;
-	m_Arena.width = arena.width - 180;
-	m_Arena.top = arena.top + 180;
-	m_Arena.height = arena.height - 180;
+	m_Arena.left = arena.left + 270;
+	m_Arena.width = arena.width - 270;
+	m_Arena.top = arena.top + 270;
+	m_Arena.height = arena.height - 270;
 
 	spawn();
 }

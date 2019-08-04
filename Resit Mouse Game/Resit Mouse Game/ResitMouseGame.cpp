@@ -46,7 +46,7 @@ int main()
 
 	Sprite spriteMenu;
 	Texture textureMenu;
-	textureMenu.loadFromFile("graphics/menu");
+	textureMenu.loadFromFile("graphics/menu.png");
 	spriteMenu.setTexture(textureMenu);
 	spriteMenu.setPosition(0, 0);
 
@@ -188,13 +188,13 @@ int main()
 
 			float dtAsSeconds = dt.asSeconds();
 
-			mainView.setCenter(player.getCenter());
+			//mainView.setCenter(player.getCenter());
 
 			player.update(dtAsSeconds, Mouse::getPosition()); //!!!!!!!!!!!!!!!!!!
 
 			Vector2f playerPosition(player.getCenter()); 
 
-			mainView.setCenter(player.getCenter());  
+			//mainView.setCenter(player.getCenter());  
 
 			cheesePickup.update(dtAsSeconds);
 			poisonPickup.update(dtAsSeconds);
@@ -203,14 +203,14 @@ int main()
 			if (player.getPosition().intersects(cheesePickup.getPosition()) && cheesePickup.isSpawned())
 			{
 				score += cheesePickup.gotIt();
-				if (score >= highScore)
+				if (score > highScore)
 				{
 					highScore = score;
 				}
 			}
 			if (player.getPosition().intersects(poisonPickup.getPosition()) && poisonPickup.isSpawned())
 			{
-				score -= poisonPickup.gotIt();
+				score += poisonPickup.gotIt();
 			}
 			if (player.getPosition().intersects(trapPickup.getPosition()) && trapPickup.isSpawned())
 			{
@@ -242,7 +242,7 @@ int main()
 
 			window.setView(mainView);
 
-			window.draw(background, &textureBackground); //**************BACKGROUND GENERATION!!!!!!!!!!!
+			window.draw(background, &textureBackground);
 
 			window.draw(player.getSprite());
 
