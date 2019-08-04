@@ -14,13 +14,12 @@ Pickup::Pickup(int type) //setting up 3 different types for the 3 different pick
 	{
 		m_Texture.loadFromFile("graphics/poison.png");
 		m_Sprite.setTexture(m_Texture);
-		m_Value = -2;
+		m_Value = 2;
 	}
 	else
 	{
 		m_Texture.loadFromFile("graphics/trap.png");
 		m_Sprite.setTexture(m_Texture);
-		m_Value = 0;
 	}
 	m_Sprite.setOrigin(90, 90);
 
@@ -29,16 +28,18 @@ Pickup::Pickup(int type) //setting up 3 different types for the 3 different pick
 }
 void Pickup::setArena(IntRect arena) //telling the class the borger within which it can spawn (doesn`t seem to work tho)
 {
-	m_Arena.left = arena.left + 360;
-	m_Arena.width = arena.width - 360;
-	m_Arena.top = arena.top + 360;
-	m_Arena.height = arena.height - 360;
+	m_Arena.left = arena.left + 180;
+	m_Arena.width = arena.width - 180;
+	m_Arena.top = arena.top + 180;
+	m_Arena.height = arena.height - 180;
 
 	spawn();
 }
 void Pickup::spawn() //random number generator uses info from the previous function for spawning
 {
-	int x = (rand() % m_Arena.width);
+	//srand((int)time(0) / m_Type);
+ 	int x = (rand() % m_Arena.width);
+	//srand((int)time(0) * m_Type);
 	int y = (rand() % m_Arena.height);
 	m_SecondsSinceSpawn = 0;
 	m_Spawned = true;
