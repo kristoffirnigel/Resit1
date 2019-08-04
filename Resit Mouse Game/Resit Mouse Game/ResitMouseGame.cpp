@@ -26,14 +26,14 @@ int main()
 	Clock clock;
 	Time gameTimeTotal;
 
-	Vector2f mouseWorldPosition;
-	Vector2i mouseScreenPosition;
+	//Vector2f mouseWorldPosition;
+	//Vector2i mouseScreenPosition;
 
 	Player player; //instance of the player class
 
-	IntRect arena; //************************HERE IS THE ARENA RECT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	IntRect arena;
 	//here we create a background
-	VertexArray background; //***************HERE IS THE BACKGROUND VERTEX ARRAY!!!!!!!!!!!!!!!!!!!!!
+	VertexArray background;
 	Texture textureBackground; 
 	textureBackground.loadFromFile("graphics/background.png");
 
@@ -168,6 +168,8 @@ int main()
 
 				int tileSize = createBackground(background, arena);
 
+				score = 0;
+
 				player.spawn(arena, resolution, tileSize);
 
 				cheesePickup.setArena(arena);
@@ -188,7 +190,7 @@ int main()
 
 			float dtAsSeconds = dt.asSeconds();
 
-			player.update(dtAsSeconds, Mouse::getPosition()); //!!!!!!!!!!!!!!!!!!
+			player.update(dtAsSeconds, Mouse::getPosition());
 
 			Vector2f playerPosition(player.getCenter());   
 
@@ -202,16 +204,18 @@ int main()
 			}
 			if (player.getPosition().intersects(poisonPickup.getPosition()) && poisonPickup.isSpawned())
 			{
-				score += poisonPickup.gotIt();
+				score -= poisonPickup.gotIt();
 			}
 			if (player.getPosition().intersects(trapPickup.getPosition()) && trapPickup.isSpawned())
 			{
+				score = score;
 				state = State::GAME_OVER;
 			}
 			if (score >= highScore)
 			{
 				highScore = score;
 			}
+			
 
 			lastHudUpdate++;
 			if (lastHudUpdate > fpsInterval)
@@ -227,12 +231,10 @@ int main()
 
 				lastHudUpdate = 0;
 			}
-			if (state == State::GAME_OVER)
-			{
-				player.resetPlayerStats();
-			}
 
-		} //updates end here
+		}
+		
+		//updates end here
 		  
 		  /*HERE WE DRAW*/
 
