@@ -21,12 +21,12 @@ Pickup::Pickup(int type) //setting up 3 different types for the 3 different pick
 		m_Texture.loadFromFile("graphics/trap.png");
 		m_Sprite.setTexture(m_Texture);
 	}
-	m_Sprite.setOrigin(90, 90);
+	m_Sprite.setOrigin(90, 90); 
 
 	m_SecondsLeft = START_COUNTDOWN;
-	m_SecondsToWait = START_WAIT_TIME;
+	m_SecondsToWait = START_WAIT_TIME; //the time between spawns and selfdestructions
 }
-void Pickup::setArena(IntRect arena) //telling the class the borger within which it can spawn (doesn`t seem to work tho)
+void Pickup::setArena(IntRect arena) //telling the class the border within which it can spawn (doesn`t seem to work tho)
 {
 	m_Arena.left = arena.left + 180;
 	m_Arena.width = arena.width - 180;
@@ -37,9 +37,7 @@ void Pickup::setArena(IntRect arena) //telling the class the borger within which
 }
 void Pickup::spawn() //random number generator uses info from the previous function for spawning
 {
-	srand((int)time(0) / m_Type);
  	int x = (rand() % m_Arena.width);
-	srand((int)time(0) * m_Type);
 	int y = (rand() % m_Arena.height);
 	m_SecondsSinceSpawn = 0;
 	m_Spawned = true;

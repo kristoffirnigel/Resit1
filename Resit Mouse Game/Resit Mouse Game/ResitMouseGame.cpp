@@ -78,17 +78,17 @@ int main()
 	scoreText.setCharacterSize(25);
 	scoreText.setPosition(1100, 180);
 
-	std::ifstream inputFile("gameData/scores.txt");
+	std::ifstream inputFile("gameData/scores.txt"); //for highscore
 	if (inputFile.is_open())
 	{
 		inputFile >> highScore;
 		inputFile.close();
 	}
 	
-	int lastHudUpdate = 0;
-	int fpsInterval = 1000;
+	int lastHudUpdate = 0; 
+	int fpsInterval = 1000; //for hud update checks 
 
-	SoundBuffer biteBuffer;
+	SoundBuffer biteBuffer; //sounds called in from files
 	biteBuffer.loadFromFile("sounds/bites.wav");
 	Sound bite;
 	bite.setBuffer(biteBuffer);
@@ -130,14 +130,12 @@ int main()
 					state = State::MENU;
 				}
 			}
-		} //here is the end of event management
-
+		}
 		if (Keyboard::isKeyPressed(Keyboard::Escape)) //this is for quitting
 		{
 			window.close();
 		}
-
-		if (state == State::PLAYING) //keyboard controlls, pretty straight forward WASD
+		if (state == State::PLAYING) //keyboard controlls, WASD, the little mouse sprite will move like a toy car
 		{
 			if (Keyboard::isKeyPressed(Keyboard::W))
 			{
@@ -186,9 +184,9 @@ int main()
 				arena.left = 0;
 				arena.top = 0;
 
-				int tileSize = createBackground(background, arena);
+				int tileSize = createBackground(background, arena); //one tyle is 180*180, game will assemble the background from them
 
-				score = 0;
+				score = 0; //score to zero
 
 				player.spawn(arena, resolution, tileSize);
 
@@ -210,7 +208,7 @@ int main()
 
 			float dtAsSeconds = dt.asSeconds();
 
-			player.update(dtAsSeconds, Mouse::getPosition());
+			player.update(dtAsSeconds, Mouse::getPosition()); //here we call the function that moves the player
 
 			Vector2f playerPosition(player.getCenter());   
 
@@ -220,23 +218,23 @@ int main()
 
 			if (player.getPosition().intersects(cheesePickup.getPosition()) && cheesePickup.isSpawned())
 			{
-				player.bite(gameTimeTotal); /*******************************************************************************/
+				player.bite(gameTimeTotal); /***********attempt to fix the skyrocketing scores*******************************/
 				score += cheesePickup.gotIt();
 				bite.play();
 			}
 			if (player.getPosition().intersects(poisonPickup.getPosition()) && poisonPickup.isSpawned())
 			{
-				player.bite(gameTimeTotal);/*********************************************************************************/
+				player.bite(gameTimeTotal);/***************************did not seem to work though***************************/
 				score -= poisonPickup.gotIt();
 				bite.play();
 			}
 			if (player.getPosition().intersects(trapPickup.getPosition()) && trapPickup.isSpawned())
 			{
-				player.bite(gameTimeTotal); /********************************************************************************/
+				player.bite(gameTimeTotal); /************************didn`t break nothing either*****************************/
 				score = score;
 				bite.play();
 				state = State::GAME_OVER;
-				std::ofstream outputFile("gameData/score.txt");
+				std::ofstream outputFile("gameData/score.txt"); //calling the highscore
 				outputFile << highScore;
 				outputFile.close();
 			}
@@ -246,7 +244,7 @@ int main()
 			}
 
 			lastHudUpdate++;
-			if (lastHudUpdate > fpsInterval)
+			if (lastHudUpdate > fpsInterval) //if the time of the last hud update was longer than fpsI. it`s time for new update
 			{
 				std::stringstream ssScore;
 				std::stringstream ssHighScore;
@@ -257,14 +255,14 @@ int main()
 				ssHighScore << "HIGH SCORE:" << highScore;
 				highScoreText.setString(ssHighScore.str());
 
-				lastHudUpdate = 0;
+				lastHudUpdate = 0; //and set the update clock back
 			}
 
 		}
 		
 		//updates end here
 		  
-		  /*HERE WE DRAW*/
+		  /*HERE WE DRAW WHAT'S ON SCREEN*/
 
 		if (state == State::PLAYING)
 		{
@@ -312,10 +310,11 @@ int main()
 			window.draw(scoreText);
 			window.draw(highScoreText);
 		}
-		music.play();
+		music.play(); //play the background music
 		window.display();
 
-	} //THE MAIN GAME LOOP ENDS HERE
+	} 
+	//THE MAIN GAME LOOP ENDS HERE
 	return 0;
 }
 
