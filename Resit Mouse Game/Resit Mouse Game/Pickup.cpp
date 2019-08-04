@@ -55,13 +55,13 @@ bool Pickup::isSpawned()
 {
 	return m_Spawned;
 }
-int Pickup::gotIt()
+int Pickup::gotIt() //this is the function we call once the pickup colision is detected in main
 {
 	m_Spawned = false;
 	m_SecondsSinceDestroy = 0;
 	return m_Value;
 }
-void Pickup::update(float elapsedTime)
+void Pickup::update(float elapsedTime) //and here is the timer to tell the pickups to spawn and selfdestruct
 {
 	if (m_Spawned)
 	{

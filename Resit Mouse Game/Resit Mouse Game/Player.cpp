@@ -28,7 +28,7 @@ void Player::resetPlayerStats()
 {
 	m_Speed = START_SPEED;
 }
-/**********************************************************************************************************/
+/*********************************also part of the code that's ment to fic the score bug******************/
 Time Player::getLastBiteTime()
 {
 	return m_LastBite;
@@ -45,7 +45,7 @@ bool Player::bite(Time timeBite)
 		return false;
 	}
 }
-/**********************************************************************************************************/
+/*********************************************************************************************************/
 FloatRect Player::getPosition()
 {
 	return m_Sprite.getGlobalBounds();
@@ -94,7 +94,7 @@ void Player::stopDown()
 {
 	m_DownPressed = false;
 }
-void Player::update(float elapsedTime, Vector2i mousePosition)
+void Player::update(float elapsedTime, Vector2i mousePosition) //movement controlls. W and S are moving back and forth while A and D turn
 {
 	float speed = 0;
 	if (m_UpPressed)
@@ -131,7 +131,7 @@ void Player::update(float elapsedTime, Vector2i mousePosition)
 
 	m_Sprite.setPosition(m_Position);
 
-	if (m_Position.x > m_Arena.width - m_TileSize)
+	if (m_Position.x > m_Arena.width - m_TileSize) //this won't let the sprite move out of the arena
 	{
 		m_Position.x = m_Arena.width - m_TileSize;
 	}

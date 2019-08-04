@@ -184,7 +184,7 @@ int main()
 				arena.left = 0;
 				arena.top = 0;
 
-				int tileSize = createBackground(background, arena); //one tyle is 180*180, game will assemble the background from them
+				int tileSize = createBackground(background, arena); //one tile is 180*180, game will assemble the background from them
 
 				score = 0; //score to zero
 

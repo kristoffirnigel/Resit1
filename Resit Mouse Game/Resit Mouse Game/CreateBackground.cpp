@@ -14,11 +14,11 @@ int createBackground(VertexArray& rVA, IntRect arena)
 
 	int worldHeight = arena.height / TILE_SIZE;
 
-	rVA.setPrimitiveType(Quads);
+	rVA.setPrimitiveType(Quads); //working with quads !!
 
 	rVA.resize(worldWidth * worldHeight * VERTS_IN_QUAD);
 
-	int currentVertex = 0; //we start the vertex array from here
+	int currentVertex = 0; //start the vertex array from here
 
 	for (int w = 0; w < worldWidth; w++)
 	{
@@ -36,7 +36,7 @@ int createBackground(VertexArray& rVA, IntRect arena)
 				rVA[currentVertex + 2].texCoords = Vector2f(TILE_SIZE, TILE_SIZE + TILE_TYPES * TILE_SIZE);
 				rVA[currentVertex + 3].texCoords = Vector2f(0, TILE_SIZE + TILE_TYPES * TILE_SIZE);
 			}
-			else //the floor types are selected
+			else //the floor types are selected randomly
 			{
 				srand((int)time(0) + h * w - h); 
 				int randTile = (rand() % TILE_TYPES);

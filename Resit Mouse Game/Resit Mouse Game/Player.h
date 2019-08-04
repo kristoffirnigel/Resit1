@@ -9,7 +9,7 @@ class Player
 private:
 	const float START_SPEED = 250;
 
-	Vector2f m_Position; //for collisions later
+	Vector2f m_Position; //for collisions
 	Sprite m_Sprite; //to draw the mouse
 	Texture m_Texture;
 	Vector2f m_Resolution;
