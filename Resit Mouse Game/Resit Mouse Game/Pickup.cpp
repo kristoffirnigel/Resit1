@@ -37,9 +37,9 @@ void Pickup::setArena(IntRect arena) //telling the class the borger within which
 }
 void Pickup::spawn() //random number generator uses info from the previous function for spawning
 {
-	//srand((int)time(0) / m_Type);
+	srand((int)time(0) / m_Type);
  	int x = (rand() % m_Arena.width);
-	//srand((int)time(0) * m_Type);
+	srand((int)time(0) * m_Type);
 	int y = (rand() % m_Arena.height);
 	m_SecondsSinceSpawn = 0;
 	m_Spawned = true;

@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include <sstream>
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 #include "Player.h"
 #include "ResitMouseGame.h"
 #include "Pickup.h"
@@ -82,6 +83,21 @@ int main()
 	
 	int lastHudUpdate = 0;
 	int fpsInterval = 1000;
+
+	SoundBuffer biteBuffer;
+	biteBuffer.loadFromFile("sounds/bites.wav");
+	Sound bite;
+	bite.setBuffer(biteBuffer);
+
+	SoundBuffer dieBuffer;
+	dieBuffer.loadFromFile("sounds/dies.wav");
+	Sound die;
+	die.setBuffer(dieBuffer);
+
+	SoundBuffer stepBuffer;
+	stepBuffer.loadFromFile("sounds/steps.wav");
+	Sound step;
+	step.setBuffer(stepBuffer);
 
 	while(window.isOpen()) //HERE COMES THE MAIN GAME LOOP
 	{
@@ -201,21 +217,23 @@ int main()
 			if (player.getPosition().intersects(cheesePickup.getPosition()) && cheesePickup.isSpawned())
 			{
 				score += cheesePickup.gotIt();
+				bite.play();
 			}
 			if (player.getPosition().intersects(poisonPickup.getPosition()) && poisonPickup.isSpawned())
 			{
 				score -= poisonPickup.gotIt();
+				bite.play();
 			}
 			if (player.getPosition().intersects(trapPickup.getPosition()) && trapPickup.isSpawned())
 			{
 				score = score;
+				bite.play();
 				state = State::GAME_OVER;
 			}
 			if (score >= highScore)
 			{
 				highScore = score;
 			}
-			
 
 			lastHudUpdate++;
 			if (lastHudUpdate > fpsInterval)
